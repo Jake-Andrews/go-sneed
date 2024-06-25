@@ -20,3 +20,11 @@
 # Go workspace file
 go.work
 go.work.sum
+
+# Misc
+bin
+tmp
+*.db
+tailwindcss
+.env
+.envrc
