@@ -5,7 +5,8 @@ import (
 	"errors"
 	"go-sneed/internal/config"
 	"go-sneed/internal/handlers"
-	"log/slog"
+    "go-sneed/internal/db/postgres"
+    "log/slog"
 	"net/http"
 	"os"
 	"os/signal"
@@ -21,9 +22,12 @@ import (
 
 func main() {
     logger := slog.New(slog.NewJSONHandler(os.Stdout, nil))
-    cfg := config.MustLoadConfig()
+    cfg := config.LoadConfig()
+    _ = postgres.NewPostgresDB(cfg.PG_URI)
+    logger.Info("DB pinged successfully!")
 
-	r := chi.NewRouter()
+    r := chi.NewRouter()
+
     fileServer := http.FileServer(http.Dir("./static"))
     r.Handle("/static/*", http.StripPrefix("/static/", fileServer))
 	r.Get("/", handlers.NewGetHomeHandler().ServeHTTP)

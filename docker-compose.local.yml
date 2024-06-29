@@ -1,0 +1,23 @@
+services:
+  db:
+    env_file:
+      - path: .envrc
+    image: postgres:16
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: ${USER}
+      POSTGRES_PASSWORD_FILE: /run/secrets/pg_password
+      POSTGRES_DB: ${DBNAME}
+    secrets:
+      - pg_password
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+secrets:
+  pg_password:
+    file: db_password.txt
+
+volumes:
+  pgdata:
