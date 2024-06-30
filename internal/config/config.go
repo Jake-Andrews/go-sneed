@@ -7,8 +7,9 @@ import (
 )
 
 type Config struct {
-    Port   string `env:"PORT" envDefault:"5151"`
-    PG_URI string `env:"PG_URI,required"`
+    Server_port string `env:"SERVER_PORT" envDefault:"5151"`
+    Server_host string `env:"SERVER_HOST" envDefault:"localhost"`
+    PG_URI      string `env:"PG_URI,required"`
 }
 
 func LoadConfig() *Config {
@@ -16,6 +17,5 @@ func LoadConfig() *Config {
     if err := env.Parse(&cfg); err != nil {
         log.Fatalf("Error loading config: %v", err)
     }
-    log.Print(cfg)
     return &cfg
 }

@@ -10,7 +10,6 @@ import (
 )
 
 func NewPostgresDB(cfgStr string) *pgxpool.Pool {
-    log.Printf("db_conn config string: %s", cfgStr)
 	pgxConfig, err := pgxpool.ParseConfig(cfgStr)
 	if err != nil {
 		panic(err)

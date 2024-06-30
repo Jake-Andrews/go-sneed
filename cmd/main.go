@@ -4,9 +4,10 @@ import (
 	"context"
 	"errors"
 	"go-sneed/internal/config"
+	"go-sneed/internal/db/dbstore"
+	"go-sneed/internal/db/postgres"
 	"go-sneed/internal/handlers"
-    "go-sneed/internal/db/postgres"
-    "log/slog"
+	"log/slog"
 	"net/http"
 	"os"
 	"os/signal"
@@ -23,21 +24,23 @@ import (
 func main() {
     logger := slog.New(slog.NewJSONHandler(os.Stdout, nil))
     cfg := config.LoadConfig()
-    _ = postgres.NewPostgresDB(cfg.PG_URI)
-    logger.Info("DB pinged successfully!")
+    db := postgres.NewPostgresDB(cfg.PG_URI)
+
+    userStore := dbstore.NewUserStore(db)
 
     r := chi.NewRouter()
 
     fileServer := http.FileServer(http.Dir("./static"))
     r.Handle("/static/*", http.StripPrefix("/static/", fileServer))
 	r.Get("/", handlers.NewGetHomeHandler().ServeHTTP)
+    r.Post("/register", handlers.NewPostRegisterHandler(userStore).ServeHTTP)
     r.NotFound(handlers.NewGetNotFoundHandler().ServeHTTP)
 
 	killSig := make(chan os.Signal, 1)
     signal.Notify(killSig, os.Interrupt, syscall.SIGTERM, syscall.SIGINT)
 
 	srv := &http.Server{
-        Addr:    ":"+cfg.Port,
+        Addr: cfg.Server_host + ":" + cfg.Server_port,
 		Handler: r,
 	}
 
@@ -52,7 +55,7 @@ func main() {
 		}
 	}()
 
-	logger.Info("Server started", slog.String("port", cfg.Port))
+	logger.Info("Server started", slog.String("port", cfg.Server_port))
 	<-killSig
 
 	logger.Info("Shutting down server")
