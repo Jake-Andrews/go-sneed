@@ -3,6 +3,8 @@ package handlers
 import (
 	"context"
 	store "go-sneed/internal/db"
+	"go-sneed/internal/templates"
+	"go-sneed/internal/utils"
 	"log"
 	"net/http"
 )
@@ -18,17 +20,29 @@ func NewPostRegisterHandler(UserStore store.UserStore) *PostRegisterHandler {
 
 func (h *PostRegisterHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
     // register logic
+    // not needed for formvalue just form, remove after testing
     if err := r.ParseForm(); err != nil {
         log.Fatal(err)
     }
+    log.Printf("User: %+v\n", r.Form)
     email := r.FormValue("email")
     password := r.FormValue("password")
+    username := r.FormValue("username")
     //log.Printf("User, email: %v", r.Form)
-    log.Printf("email %s, password %s", email, password)
+    log.Printf("email %q, password %q, username %q", email, password, username)
     log.Println("PostRegisterHandler calling db")
 
-    if err := h.userStore.CreateUser(context.Background(), email, password); err != nil {
-        log.Fatal(err)
+    user := store.User{
+        Email: email,
+        Password: password,
+        Username: username,
     }
-    log.Printf("Inserted user into db: %s", email)
+    if err := h.userStore.CreateUser(context.Background(), user); err != nil {
+        log.Printf("Error creating user %v", err)
+        utils.RenderTemplate(templates.RegisterError(), r.Context(), w)
+        return
+    }
+    log.Printf("Success creating user %q", username)
+    utils.RenderTemplate(templates.RegisterSuccess(username), r.Context(), w)
 }
+

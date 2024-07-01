@@ -19,10 +19,12 @@ func NewUserStore(DB *pgxpool.Pool) store.UserStore {
 	}
 }
 
-func (u *userRepo) CreateUser(ctx context.Context, email string, password string) error {
+// user (Set fields): username string, email string, password string
+func (u *userRepo) CreateUser(ctx context.Context, user store.User) error {
+    log.Printf("Creating user: %+v\n", user)
     sql := `INSERT INTO users (username, email, password) VALUES ($1, $2, $3)`
 
-    _, err1 := u.db.Exec(ctx, sql, "sneed", email, password)
+    _, err1 := u.db.Exec(ctx, sql, user.Username, user.Email, user.Password)
     if err1 != nil {
         log.Printf("unable to insert row: %v", err1)
         return err1
@@ -30,9 +32,9 @@ func (u *userRepo) CreateUser(ctx context.Context, email string, password string
     return nil
 }
 
-func (u *userRepo) GetUser(ctx context.Context, email string) (*store.User, error) {
+func (u *userRepo) GetUser(ctx context.Context, email string) (store.User, error) {
     sql := "SELECT * FROM users WHERE email (email) VALUES ($1)"
-    log.Printf("GetUser with email: %s", email)
+    log.Printf("GetUser with email: %q", email)
 
     rows, err := u.db.Query(context.Background(), sql, email)
     if err != nil {
@@ -42,8 +44,8 @@ func (u *userRepo) GetUser(ctx context.Context, email string) (*store.User, erro
     user, err := pgx.CollectExactlyOneRow(rows, pgx.RowToStructByName[store.User])
     if err != nil {
         log.Printf("Error finding user: %v", err)
-        return &store.User{}, err
+        return store.User{}, err
     }
 
-    return &user, nil
+    return user, nil
 }
