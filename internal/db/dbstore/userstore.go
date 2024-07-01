@@ -2,7 +2,9 @@ package dbstore
 
 import (
 	"context"
+	"fmt"
 	store "go-sneed/internal/db"
+	"go-sneed/internal/hash"
 	"log"
 
 	"github.com/jackc/pgx/v5"
@@ -10,25 +12,39 @@ import (
 )
 
 type userRepo struct {
-	db *pgxpool.Pool
+	db           *pgxpool.Pool
+    passwordhash hash.PasswordHash
 }
 
-func NewUserStore(DB *pgxpool.Pool) store.UserStore {
+func NewUserStore(DB *pgxpool.Pool, PasswordHash hash.PasswordHash) store.UserStore {
 	return &userRepo{
-		DB,
+        db:           DB,
+        passwordhash: PasswordHash,
 	}
 }
 
 // user (Set fields): username string, email string, password string
-func (u *userRepo) CreateUser(ctx context.Context, user store.User) error {
+func (u *userRepo) CreateUser(ctx context.Context, user *store.User) error {
     log.Printf("Creating user: %+v\n", user)
     sql := `INSERT INTO users (username, email, password) VALUES ($1, $2, $3)`
 
-    _, err1 := u.db.Exec(ctx, sql, user.Username, user.Email, user.Password)
+    if userExists := u.UserExists(ctx, user.Email, user.Username); userExists {
+        return fmt.Errorf("User with email %q or username %q already exists", user.Email, user.Username)
+    }
+
+    hashedPassword, err := u.passwordhash.GenerateFromPassword(user.Password)
+	if err != nil {
+        log.Printf("Error hashing users password: %v", err)
+		return err
+	}
+
+    _, err1 := u.db.Exec(ctx, sql, user.Username, user.Email, hashedPassword)
     if err1 != nil {
         log.Printf("unable to insert row: %v", err1)
         return err1
     }
+
+    user.Password = ""
     return nil
 }
 
@@ -48,4 +64,21 @@ func (u *userRepo) GetUser(ctx context.Context, email string) (store.User, error
     }
 
     return user, nil
+}
+
+func (u *userRepo) UserExists(ctx context.Context, email string, username string) bool {
+    sql := "SELECT user_id FROM users WHERE email = $1 or username = $2"
+
+    rows, err := u.db.Query(context.Background(), sql, email, username)
+    if err != nil {
+        log.Printf("Query UserExists error: %v", err)
+    }
+
+    _, err1 := pgx.CollectExactlyOneRow(rows, pgx.RowToStructByName[store.User])
+    if err1 != nil {
+        log.Printf("UserExists email %q username %q\n", email, username)
+        log.Println(err1)
+        return false
+    }
+    return true
 }

@@ -37,7 +37,7 @@ func (h *PostRegisterHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) 
         Password: password,
         Username: username,
     }
-    if err := h.userStore.CreateUser(context.Background(), user); err != nil {
+    if err := h.userStore.CreateUser(context.Background(), &user); err != nil {
         log.Printf("Error creating user %v", err)
         utils.RenderTemplate(templates.RegisterError(), r.Context(), w)
         return

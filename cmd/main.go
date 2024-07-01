@@ -7,6 +7,7 @@ import (
 	"go-sneed/internal/db/dbstore"
 	"go-sneed/internal/db/postgres"
 	"go-sneed/internal/handlers"
+	"go-sneed/internal/hash/passwordhash"
 	"log/slog"
 	"net/http"
 	"os"
@@ -25,8 +26,9 @@ func main() {
     logger := slog.New(slog.NewJSONHandler(os.Stdout, nil))
     cfg := config.LoadConfig()
     db := postgres.NewPostgresDB(cfg.PG_URI)
+    passHash := passwordhash.NewHPasswordHash()
 
-    userStore := dbstore.NewUserStore(db)
+    userStore := dbstore.NewUserStore(db, passHash)
 
     r := chi.NewRouter()
 
