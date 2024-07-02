@@ -29,3 +29,4 @@ tailwindcss
 .env
 .envrc
 *.txt
+/node_modules

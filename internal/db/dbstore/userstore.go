@@ -25,7 +25,7 @@ func NewUserStore(DB *pgxpool.Pool, PasswordHash hash.PasswordHash) store.UserSt
 
 // user (Set fields): username string, email string, password string
 func (u *userRepo) CreateUser(ctx context.Context, user *store.User) error {
-    log.Printf("Creating user: %+v\n", user)
+    log.Printf("CreateUser fn start (before hash): %+v\n", user)
     sql := `INSERT INTO users (username, email, password) VALUES ($1, $2, $3)`
 
     if userExists := u.UserExists(ctx, user.Email, user.Username); userExists {

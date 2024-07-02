@@ -39,10 +39,10 @@ func (h *PostRegisterHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) 
     }
     if err := h.userStore.CreateUser(context.Background(), &user); err != nil {
         log.Printf("Error creating user %v", err)
-        utils.RenderTemplate(templates.RegisterError(), r.Context(), w)
+        utils.RenderTemplWithLayout(templates.RegisterError(), r.Context(), w)
         return
     }
     log.Printf("Success creating user %q", username)
-    utils.RenderTemplate(templates.RegisterSuccess(username), r.Context(), w)
+    utils.RenderTemplWithLayout(templates.RegisterSuccess(username), r.Context(), w)
 }
 

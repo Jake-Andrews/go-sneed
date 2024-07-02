@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"go-sneed/internal/templates"
+	"go-sneed/internal/utils"
 	"net/http"
 )
 
@@ -12,13 +13,7 @@ func NewGetNotFoundHandler() *GetNotFoundHandler {
 }
 
 func (h *GetNotFoundHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	c := templates.NotFound()
-	err := templates.Layout(c, "Not Found").Render(r.Context(), w)
-
-	if err != nil {
-		http.Error(w, "Error rendering template", http.StatusInternalServerError)
-		return
-	}
+    utils.RenderTemplWithLayout(templates.NotFound(), r.Context(), w)
 }
 
 
