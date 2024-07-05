@@ -5,6 +5,7 @@ import (
 	"fmt"
 	store "go-sneed/internal/db"
 	"go-sneed/internal/hash"
+    "go-sneed/internal/models"
 	"log"
 
 	"github.com/jackc/pgx/v5"
@@ -23,28 +24,28 @@ func NewUserStore(DB *pgxpool.Pool, PasswordHash hash.PasswordHash) store.UserSt
 	}
 }
 
-// user (Set fields): username string, email string, password string
-func (u *userRepo) CreateUser(ctx context.Context, user *store.User) error {
-    log.Printf("CreateUser fn start (before hash): %+v\n", user)
+// userFormData (Set fields): username string, email string, password string
+func (u *userRepo) CreateUser(ctx context.Context, userFormData *models.FormData) error {
+    log.Printf("CreateUser fn start (before hash): %+v\n", userFormData)
     sql := `INSERT INTO users (username, email, password) VALUES ($1, $2, $3)`
 
-    if userExists := u.UserExists(ctx, user.Email, user.Username); userExists {
-        return fmt.Errorf("User with email %q or username %q already exists", user.Email, user.Username)
+    if userExists := u.UserExists(ctx, userFormData.Email, userFormData.Username); userExists {
+        return fmt.Errorf("User with email %q or username %q already exists", userFormData.Email, userFormData.Username)
     }
 
-    hashedPassword, err := u.passwordhash.GenerateFromPassword(user.Password)
+    hashedPassword, err := u.passwordhash.GenerateFromPassword(userFormData.Password)
 	if err != nil {
         log.Printf("Error hashing users password: %v", err)
 		return err
 	}
 
-    _, err1 := u.db.Exec(ctx, sql, user.Username, user.Email, hashedPassword)
+    _, err1 := u.db.Exec(ctx, sql, userFormData.Username, userFormData.Email, hashedPassword)
     if err1 != nil {
         log.Printf("unable to insert row: %v", err1)
         return err1
     }
 
-    user.Password = ""
+    userFormData.Password = ""
     return nil
 }
 
@@ -57,13 +58,13 @@ func (u *userRepo) GetUser(ctx context.Context, email string) (store.User, error
         log.Printf("Query GetUser error: %v", err)
     }
 
-    user, err := pgx.CollectExactlyOneRow(rows, pgx.RowToStructByName[store.User])
+    userFormData, err := pgx.CollectExactlyOneRow(rows, pgx.RowToStructByName[store.User])
     if err != nil {
-        log.Printf("Error finding user: %v", err)
+        log.Printf("Error finding userFormData: %v", err)
         return store.User{}, err
     }
 
-    return user, nil
+    return userFormData, nil
 }
 
 func (u *userRepo) UserExists(ctx context.Context, email string, username string) bool {

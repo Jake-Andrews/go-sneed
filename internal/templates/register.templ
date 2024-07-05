@@ -1,44 +1,51 @@
 package templates
 
-templ RegisterPage() {
-	<div hx-ext="response-targets">
-		<h1>
-        Register
-		</h1>
-		<form
-			hx-post="/register"
-			hx-trigger="submit"
-			hx-target-401="#register-error"
-		>
-			<div id="register-error"></div>
-			<div>
-				<label for="email">Your email</label>
-				<input type="email" name="email" id="email" placeholder="name@company.com" required=""/>
-			</div>
-			<div>
-				<label for="password">Password</label>
-				<input type="password" name="password" id="password" placeholder="••••••••" required=""/>
-			</div>
-			<button type="submit">
-				Register
-			</button>
-			<p>
-				Already have an account?
-				<a href="/login">Login</a>
-			</p>
-		</form>
-	</div>
+import "go-sneed/internal/models"
+
+templ RegisterPage(formErrors models.FormErrors, formData models.FormData) {
+<form hx-post="/register" method="post" class="bg-bf-50 rounded">
+    <div>
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" value={ formData.Username } required />
+        if len(formErrors.Username) > 0 {
+            <div id="username-error" hx-swap-oob="true" class="error bg-bf-400 text-red-500 mt-2">
+                for _, uErrors := range formErrors.Username {
+                    { uErrors }
+                }
+            </div>
+            <br>
+        }
+    </div>
+    <div>
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" value={ formData.Email } required />
+        if len(formErrors.Username) > 0 {
+            <div id="email-error" hx-swap-oob="true" class="error text-red-500 mt-2">
+                for _, uErrors := range formErrors.Email {
+                    { uErrors }
+                }
+            </div>
+            <br>
+        }
+    </div>
+    <div>
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required />
+        if len(formErrors.Password) > 0 {
+            <div id="password-error" hx-swap-oob="true" class="error text-red-500 mt-2">
+                for _, uErrors := range formErrors.Password{
+                    { uErrors }
+                }
+            </div>
+            <br>
+        }
+    </div>
+    <button type="submit" value="submit">Submit</button>
+</form>
 }
 
 templ RegisterSuccess(username string) {
-	<h1>Registration successful { username }!</h1>
-	<p>Go to <a href="login">login</a></p>
+    <h1>Registration successful { username }!</h1>
+    <p>Go to <a href="/">home</a></p>
 }
 
-
-templ RegisterError() {
-	<div>
-		<h1>Registration failed</h1>
-		<p>There was an error registering your account</p>
-	</div>
-}

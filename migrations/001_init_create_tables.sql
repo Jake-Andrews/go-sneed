@@ -5,7 +5,7 @@ CREATE TABLE users (
     username   VARCHAR(50)                 NOT NULL CHECK (username <> ''),
     email      VARCHAR(50) UNIQUE          NOT NULL CHECK (email <> ''),
     password   VARCHAR(100)                NOT NULL CHECK (password <> ''),
-    created_at TIMESTAMP(0) WITH TIME ZONE    NOT NULL DEFAULT NOW(),
+    created_at TIMESTAMP(0) WITH TIME ZONE NOT NULL DEFAULT NOW(),
     last_login TIMESTAMP(0) WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 

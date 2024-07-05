@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"go-sneed/internal/models"
 	"go-sneed/internal/templates"
 	"go-sneed/internal/utils"
 	"net/http"
@@ -13,5 +14,7 @@ func NewGetRegisterHandler() *GetRegisterHandler {
 }
 
 func (h *GetRegisterHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-    utils.RenderTemplWithLayout(templates.RegisterPage(), r.Context(), w)
+    formErrors := models.FormErrors{}
+    formData := models.FormData{}
+    utils.RenderTemplWithLayout(templates.RegisterPage(formErrors, formData), r.Context(), w)
 }

@@ -2,6 +2,7 @@ package store
 
 import (
 	"context"
+	"go-sneed/internal/models"
 	"time"
 
 	"github.com/google/uuid"
@@ -16,7 +17,7 @@ type User struct {
     Last_login time.Time `db:"last_login"`
 }
 type UserStore interface {
-	CreateUser(ctx context.Context, user *User) error
+	CreateUser(ctx context.Context, user *models.FormData) error
 	GetUser(ctx context.Context, email string) (User, error)
     UserExists(ctx context.Context, email string, username string) bool
 }
