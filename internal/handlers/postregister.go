@@ -48,22 +48,18 @@ func (h *PostRegisterHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) 
 		log.Printf("Error creating user %v", err)
         w.WriteHeader(http.StatusInternalServerError)
 		user.Password = ""
-		utils.RenderTemplWithLayout(templates.RegisterError(), r.Context(), w)
+        serverErrors := models.FormErrors{Email: []string{"Error registering"}, Password: []string{"Error registering"}, Username: []string{"Error registering"},}
+		utils.RenderTemplWithLayout(templates.RegisterPage(serverErrors, user), r.Context(), w)
 		return
 	}
 
 	log.Printf("Success creating user %q", username)
     //utils.RenderTemplWithLayout(templates.Index(username), r.Context(), w)
 	user.Password = ""
-    //w.Header().Set("HX-Location", "/")
-    //w.Header().Set("HX-Redirect", "/sneed")
-    //w.Header().Set("HX-Replace-Url", "/sneed")
-    //w.WriteHeader(http.StatusOK)
-    //w.WriteHeader(http.StatusNoContent)
-    w.Header().Set("Location", "/sneed")
-    w.WriteHeader(http.StatusSeeOther)
-    //utils.RenderTemplWithLayout(templates.Sneed(), context.Background(), w)
-    //w.Header().Set("HX-Redirect", "/")
+    w.Header().Set("HX-Push-Url", "/")
+    if err := templates.Index(user.Username).Render(r.Context(), w); err != nil {
+        http.Error(w, "Error rendering template!", http.StatusInternalServerError)
+    }
 }
 
 // If an err is encountered, "Issue validating x" will be added onto FormErrors
