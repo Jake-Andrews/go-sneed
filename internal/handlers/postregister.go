@@ -54,7 +54,6 @@ func (h *PostRegisterHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) 
 	}
 
 	log.Printf("Success creating user %q", username)
-    //utils.RenderTemplWithLayout(templates.Index(username), r.Context(), w)
 	user.Password = ""
     w.Header().Set("HX-Push-Url", "/")
     if err := templates.Index(user.Username).Render(r.Context(), w); err != nil {

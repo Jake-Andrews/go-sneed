@@ -17,7 +17,7 @@ templ header(title string) {
 templ footer() {
 	<footer class="bf-primary-600 p-4"></footer>
 }
-
+/*
 templ nav() {
 	<nav class="bf-primary-600 p-4">
 		<div class="container flex justify-between">
@@ -43,11 +43,12 @@ templ nav() {
 		</div>
 	</nav>
 }
+*/
 
 templ Layout(contents templ.Component, title string) {
 	@header(title)
 	<body class="flex flex-col h-full">
-		@nav()
+		@Navigation()
 		<main class="flex-1 container ">
 			@contents
 		</main>

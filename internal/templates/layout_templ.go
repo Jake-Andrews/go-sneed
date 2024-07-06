@@ -71,6 +71,8 @@ func footer() templ.Component {
 	})
 }
 
+/*
+
 func nav() templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
@@ -95,6 +97,8 @@ func nav() templ.Component {
 	})
 }
 
+*/
+
 func Layout(contents templ.Component, title string) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
@@ -116,7 +120,7 @@ func Layout(contents templ.Component, title string) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = nav().Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = Navigation().Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
