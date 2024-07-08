@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"go-sneed/internal/templates"
+	"go-sneed/internal/utils"
 	"log"
 	"net/http"
 )
@@ -16,7 +17,5 @@ func (h *GetSearchHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
     log.Println(r)
     log.Println(r.URL)
     log.Println(r.Header)
-    if err := templates.Search().Render(r.Context(), w); err != nil {
-        http.Error(w, "sneed", http.StatusInternalServerError)
-    }
+    utils.RenderTemplWithLayout(templates.Search(), r.Context(), w)
 }
