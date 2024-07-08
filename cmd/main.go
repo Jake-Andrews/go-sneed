@@ -37,7 +37,6 @@ func main() {
 	r.Get("/", handlers.NewGetHomeHandler().ServeHTTP)
     r.Get("/search", handlers.NewGetSearchHandler().ServeHTTP)
     r.Get("/test", handlers.NewGetTestHandler().ServeHTTP)
-    r.Get("/sneed", handlers.NewGetSneedHandler().ServeHTTP)
     r.Get("/register", handlers.NewGetRegisterHandler().ServeHTTP)
     r.Post("/register", handlers.NewPostRegisterHandler(userStore).ServeHTTP)
     r.NotFound(handlers.NewGetNotFoundHandler().ServeHTTP)
