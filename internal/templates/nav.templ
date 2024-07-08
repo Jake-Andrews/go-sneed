@@ -12,17 +12,15 @@ templ Navigation() {
 			</svg>
 		</a>
 		<div class="flex items-center">
-			<input
-				class="no-margin h-10 rounded-full rounded-r-none
-        bg-blackFeather-100 p-2 px-4 placeholder-blackFeather-400 shadow
-        focus:placeholder-blackFeather-300 focus:outline-none focus:ring-2"
-				type="search"
-				placeholder="Search"
-			/>
-			<button
-				class="no-margin flex h-10 items-center justify-center
-        rounded-full rounded-l-none bg-blackFeather-200 p-2 focus:outline-none"
-			>
+            <input hx-boost="true" hx-get="/search" hx-push-url="true" class="form-control no-margin h-10 rounded-full rounded-r-none
+            bg-blackFeather-100 p-2 px-4 placeholder-blackFeather-400 shadow
+            focus:placeholder-blackFeather-300 focus:outline-none focus:ring-2"
+                    type="search"
+                    placeholder="Search" name="search" id="search"
+                />
+			<button hx-get="/search" class="no-margin flex h-10 items-center justify-center
+        rounded-full rounded-l-none bg-blackFeather-200 p-2 focus:outline-none">
+
 				<svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50">
 					<path
 						stroke="currentColor"
@@ -30,6 +28,7 @@ templ Navigation() {
 					></path>
 				</svg>
 			</button>
+
 		</div>
 		if AuthenticatedUser(ctx).LoggedIn {
 			<div class="dropdown dropdown-end">

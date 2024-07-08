@@ -35,6 +35,7 @@ func main() {
     fileServer := http.FileServer(http.Dir("./static"))
     r.Handle("/static/*", http.StripPrefix("/static/", fileServer))
 	r.Get("/", handlers.NewGetHomeHandler().ServeHTTP)
+    r.Get("/search", handlers.NewGetSearchHandler().ServeHTTP)
     r.Get("/test", handlers.NewGetTestHandler().ServeHTTP)
     r.Get("/sneed", handlers.NewGetSneedHandler().ServeHTTP)
     r.Get("/register", handlers.NewGetRegisterHandler().ServeHTTP)
