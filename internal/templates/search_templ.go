@@ -10,7 +10,9 @@ import "context"
 import "io"
 import "bytes"
 
-func Search() templ.Component {
+import "path/filepath"
+
+func Search(imagePaths []string) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
 		if !templ_7745c5c3_IsBuffer {
@@ -23,7 +25,30 @@ func Search() templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div><p>Search</p></div>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"container mx-auto p-4\"><div class=\"grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5\">")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		for _, img := range imagePaths {
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div name=\"video-card\" class=\"relative bg-white shadow-md rounded-lg \"><div name=\"video-preview\" class=\"relative pb-56.25%\"><img name=\"video-preview-thumbnail\" class=\"absolute object-cover\" src=\"")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var2 string
+			templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(img)
+			if templ_7745c5c3_Err != nil {
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/search.templ`, Line: 11, Col: 91}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\"><video name=\"video-preview-video\" class=\"absolute h-full w-full object-cover hidden\" src=\"\"></video></div><div name=\"video-info-overlay\" class=\"absolute bottom-0 left-0 w-full bg-black bg-opacity-50 text-white p-2 flex justify-between items-center\"><span name=\"overlay-resolution\" class=\"text-sm\">480p</span> <span name=\"overlay-duration\" class=\"text-sm\">10:00</span></div><div name=\"video-info\" class=\"p-4\"><h5 class=\"text-lg font-semibold truncate\"><div></div></h5><div name=\"video-information\" class=\"mt-2 text-sm text-gray-600\"><span name=\"date\"></span></div></div></div>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -32,4 +57,73 @@ func Search() templ.Component {
 		}
 		return templ_7745c5c3_Err
 	})
+}
+
+/*
+
+func Search(imagePaths []string) templ.Component {
+	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
+		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
+		if !templ_7745c5c3_IsBuffer {
+			templ_7745c5c3_Buffer = templ.GetBuffer()
+			defer templ.ReleaseBuffer(templ_7745c5c3_Buffer)
+		}
+		ctx = templ.InitializeContext(ctx)
+		templ_7745c5c3_Var3 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var3 == nil {
+			templ_7745c5c3_Var3 = templ.NopComponent
+		}
+		ctx = templ.ClearChildren(ctx)
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"justify-center grid gap-4\n        grid-cols-[repeat(auto-fill,minmax(300px,1fr))]\">")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		for _, img := range imagePaths {
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div name=\"video-card\" class=\"p-0 overflow-hidden\"><div name=\"video-preview\"><img name=\"video-preview-thumbnail\" class=\"object-cover\n                    object-top h-full w-full\" src=\"")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var4 string
+			templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(img)
+			if templ_7745c5c3_Err != nil {
+				return	templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/search.templ`, Line: 44, Col: 55}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\"><video name=\"video-preview-video\" src=\"\"></video></div><div name=\"video-info-overlay\"><span name=\"overlay-resolution\">480p</span> <span name=\"overlay-duration\">10:00</span></div><div name=\"video-info\" class=\"text-left text-ellipsis\"><h5><div>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var5 string
+			templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(grabFilename(img))
+			if templ_7745c5c3_Err != nil {
+				return	templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/search.templ`, Line: 53, Col: 40}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></h5><div name=\"video-information\"><span name=\"date\"></span></div></div></div>")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div>")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		if !templ_7745c5c3_IsBuffer {
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteTo(templ_7745c5c3_W)
+		}
+		return templ_7745c5c3_Err
+	})
+}
+
+*/
+
+func grabFilename(filename string) string {
+	extension := filepath.Ext(filename)
+	return filename[0 : len(filename)-len(extension)]
 }

@@ -1,7 +1,72 @@
 package templates
 
-templ Search() {
-    <div>
-        <p>Search</p>
+import "path/filepath"
+
+templ Search(imagePaths []string) {
+<div class="container mx-auto p-4">
+    <div class="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+        for _, img := range imagePaths {
+        <div name="video-card" class="relative bg-white shadow-md rounded-lg ">
+            <div name="video-preview" class="relative pb-56.25%">
+                <img name="video-preview-thumbnail" class="absolute object-cover" src={ img
+                    } />
+                <video name="video-preview-video" class="absolute h-full w-full object-cover hidden"
+                    src=""></video>
+            </div>
+            <div name="video-info-overlay"
+                class="absolute bottom-0 left-0 w-full bg-black bg-opacity-50 text-white p-2 flex justify-between items-center">
+                <span name="overlay-resolution" class="text-sm">480p</span>
+                <span name="overlay-duration" class="text-sm">10:00</span>
+            </div>
+            <div name="video-info" class="p-4">
+                <h5 class="text-lg font-semibold truncate">
+                    <div></div>
+                </h5>
+                <div name="video-information" class="mt-2 text-sm text-gray-600">
+                    <span name="date"></span>
+                </div>
+            </div>
+        </div>
+        }
     </div>
+</div>
+}
+
+/*
+
+templ Search(imagePaths []string) {
+<div class="justify-center grid gap-4
+        grid-cols-[repeat(auto-fill,minmax(300px,1fr))]">
+    for _, img := range imagePaths {
+    <div name="video-card" class="p-0 overflow-hidden">
+        <div name="video-preview">
+            <img name="video-preview-thumbnail" class="object-cover
+                    object-top h-full w-full" src={ img } />
+            <video name="video-preview-video" src=""></video>
+        </div>
+        <div name="video-info-overlay">
+            <span name="overlay-resolution">480p</span>
+            <span name="overlay-duration">10:00</span>
+        </div>
+        <div name="video-info" class="text-left text-ellipsis">
+            <h5>
+                <div>{ grabFilename(img) }</div>
+            </h5>
+            <div name="video-information">
+                <span name="date"></span>
+            </div>
+        </div>
+    </div>
+    }
+</div>
+}
+
+*/
+
+
+
+
+func grabFilename(filename string) string {
+    extension := filepath.Ext(filename)
+    return filename[0 : len(filename)-len(extension)]
 }
