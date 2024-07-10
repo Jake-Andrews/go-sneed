@@ -30,3 +30,4 @@ tailwindcss
 .envrc
 *.txt
 /node_modules
+/internal/templates/*.go

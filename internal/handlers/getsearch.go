@@ -22,8 +22,9 @@ func (h *GetSearchHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
         return
     }
     // hx-request, return partial
-	queryParams := r.URL.Query()
-    if searchVal := queryParams.Get("Hx-Request"); searchVal != "" {
+	//queryParams := r.URL.Query()
+    //queryParams.Get("Hx-Request")
+    if searchVal := r.Header.Get("Hx-Request"); searchVal != "" {
         if err := templates.Search(imagePaths).Render(r.Context(), w); err != nil {
             http.Error(w, "error", http.StatusInternalServerError)
         }

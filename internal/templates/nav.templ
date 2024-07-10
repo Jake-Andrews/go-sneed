@@ -2,8 +2,7 @@ package templates
 
 templ Navigation() {
 	<navbar
-		class="flex flex-wrap items-center justify-between bg-blackFeather-50
-    p-4 px-8"
+		class="flex items-center justify-between h-12"
 	>
 		<!-- go-gopher svg, search bar + magnifying glass svg  -->
 		<a href="/">
@@ -11,9 +10,9 @@ templ Navigation() {
 				<use xlink:href="#go-gopher"></use>
 			</svg>
 		</a>
-		<!-- <div class="flex items-center rounded-full p-2 shadow-md">-->
 		<div class="flex items-center bg-gray-800 rounded-full shadow-md focus-within:ring-2 focus-within:ring-blue-500">
-			<form class="flex w-full" hx-get="/search" hx-push-url="true" hx-target="main">
+			<form class="flex w-full" hx-get="/search" hx-push-url="true"
+            hx-target="#main">
 				<input
 					class="bg-gray-800 outline-none flex-grow rounded-l-full rounded-r-none text-white px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
 					type="search"

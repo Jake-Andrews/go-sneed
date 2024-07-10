@@ -17,41 +17,14 @@ templ header(title string) {
 templ footer() {
 	<footer class="bf-primary-600 p-4"></footer>
 }
-/*
-templ nav() {
-	<nav class="bf-primary-600 p-4">
-		<div class="container flex justify-between">
-			<ol class="flex space-x-4">
-				<li>
-					<a class="text-gray-200" href="/">Home</a>
-				</li>
-				<li>
-					<a class="text-gray-200" href="/about">About</a>
-				</li>
-			</ol>
-			<ol class="flex space-x-4">
-				<li>
-					<button class="text-gray-200" href="/logout">Logout</button>
-				</li>
-				<li>
-					<a class="text-gray-200" href="/register">Register</a>
-				</li>
-				<li>
-					<a class="text-gray-200" href="/login">Login</a>
-				</li>
-			</ol>
-		</div>
-	</nav>
-}
-*/
 
 templ Layout(contents templ.Component, title string) {
 	@header(title)
-	<body class="flex flex-col h-full">
+	<body id="body" class="m-2 bg-bf-400">
 		@Navigation()
-		<main id="main" class="">
-			@contents
-		</main>
-		@footer()
+        <main id="main" class="">
+            @contents
+        </main>
+        @footer()
 	</body>
 }

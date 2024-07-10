@@ -25,7 +25,7 @@ func Search(imagePaths []string) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"container mx-auto p-4\"><div class=\"grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -43,12 +43,12 @@ func Search(imagePaths []string) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\"><video name=\"video-preview-video\" class=\"absolute h-full w-full object-cover hidden\" src=\"\"></video></div><div name=\"video-info-overlay\" class=\"absolute bottom-0 left-0 w-full bg-black bg-opacity-50 text-white p-2 flex justify-between items-center\"><span name=\"overlay-resolution\" class=\"text-sm\">480p</span> <span name=\"overlay-duration\" class=\"text-sm\">10:00</span></div><div name=\"video-info\" class=\"p-4\"><h5 class=\"text-lg font-semibold truncate\"><div></div></h5><div name=\"video-information\" class=\"mt-2 text-sm text-gray-600\"><span name=\"date\"></span></div></div></div>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\"><video name=\"video-preview-video\" class=\"absolute h-full w-full object-cover hidden\" src=\"\"></video></div><div name=\"video-info-overlay\" class=\"absolute bottom-0 left-0 w-full bg-black bg-opacity-50\n                text-white p-2 flex justify-between items-center\"><span name=\"overlay-resolution\" class=\"text-sm\">480p</span> <span name=\"overlay-duration\" class=\"text-sm\">10:00</span></div><div name=\"video-info\" class=\"p-4\"><h5 class=\"text-lg font-semibold truncate\"><div></div></h5><div name=\"video-information\" class=\"mt-2 text-sm text-gray-600\"><span name=\"date\"></span></div></div></div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></div>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -86,7 +86,7 @@ func Search(imagePaths []string) templ.Component {
 			var templ_7745c5c3_Var4 string
 			templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(img)
 			if templ_7745c5c3_Err != nil {
-				return	templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/search.templ`, Line: 44, Col: 55}
+				return	templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/search.templ`, Line: 45, Col: 55}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 			if templ_7745c5c3_Err != nil {
@@ -99,7 +99,7 @@ func Search(imagePaths []string) templ.Component {
 			var templ_7745c5c3_Var5 string
 			templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(grabFilename(img))
 			if templ_7745c5c3_Err != nil {
-				return	templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/search.templ`, Line: 53, Col: 40}
+				return	templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/search.templ`, Line: 54, Col: 40}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 			if templ_7745c5c3_Err != nil {
