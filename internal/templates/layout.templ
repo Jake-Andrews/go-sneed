@@ -20,9 +20,9 @@ templ footer() {
 
 templ Layout(contents templ.Component, title string) {
 	@header(title)
-	<body id="body" class="m-2 bg-bf-400">
+	<body id="body" class="m-2 mx-4 bg-bf-400">
 		@Navigation()
-        <main id="main" class="">
+        <main id="main" class="mt-2">
             @contents
         </main>
         @footer()
