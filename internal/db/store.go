@@ -22,3 +22,21 @@ type UserStore interface {
     UserExists(ctx context.Context, email string, username string) bool
 }
 
+type Video struct {
+    ID             uuid.UUID              `db:"video_id"`
+    UserID         string                 `db:"user_id" validate:"required"`
+    Title          string                 `db:"title" validate:"required"`
+    Description    string                 `db:"description"`
+    Duration       time.Duration          `db:"duration"`
+    FilePath       string                 `db:"file_path" validate:"required"`
+    ThumbnailPath  string                 `db:"thumbnail_path" validate:"required"`
+    Quality        map[string]interface{} `db:"quality" validate:"required"`
+    Views          int                    `db:"views"`
+    Likes          int                    `db:"likes"`
+    Dislikes       int                    `db:"dislikes"`
+    CreatedAt      time.Time              `db:"created_at"`
+}
+type VideoStore interface {
+    CreateVideo(ctx context.Context, video *models.VideoData) error
+    GetVideo(ctx context.Context, videoID uuid.UUID) (Video, error)
+}

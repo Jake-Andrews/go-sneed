@@ -30,20 +30,20 @@ func Search(imagePaths []string) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		for _, img := range imagePaths {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<a href=\"/home\"><div name=\"video-card\" class=\"relative bg-white shadow-md rounded-lg\"><div name=\"video-preview\" class=\"relative pb-[56.25%]\"><img name=\"video-preview-thumbnail\" class=\"absolute top-0 left-0\n                    h-full w-full object-cover rounded-md rounded-b-none\" src=\"")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<a href=\"/video\"><div name=\"video-card\" class=\"relative bg-white shadow-md rounded-lg\"><div name=\"video-preview\" class=\"relative pb-[56.25%]\"><img name=\"video-preview-thumbnail\" class=\"absolute top-0 left-0\n                h-full w-full object-cover rounded-md rounded-b-none\" src=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var2 string
 			templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(img)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/search.templ`, Line: 13, Col: 83}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/search.templ`, Line: 13, Col: 79}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\"><video name=\"video-preview-video\" class=\"absolute rounded-md top-0 left-0 h-full w-full object-cover hidden rounded-b-none\" src=\"\"></video></div><div name=\"video-info-overlay\" class=\"absolute bottom-0 left-0 w-full bg-black bg-opacity-50\n                    text-white p-2 flex justify-between items-center rounded-b-md\"><span name=\"overlay-resolution\" class=\"text-sm\">480p</span> <span name=\"overlay-duration\" class=\"text-sm\">10:00</span></div><div name=\"video-info\" class=\"p-4\"><h5 class=\"text-lg font-semibold truncate\"><div></div></h5><div name=\"video-information\" class=\"text-sm text-gray-600\"><span name=\"date\"></span></div></div></div></a>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\"><video name=\"video-preview-video\" class=\"absolute rounded-md top-0 left-0 h-full w-full object-cover hidden rounded-b-none\" src=\"\"></video></div><div name=\"video-info-overlay\" class=\"absolute bottom-0 left-0 w-full bg-black bg-opacity-50\n                text-white p-2 flex justify-between items-center rounded-b-md\"><span name=\"overlay-resolution\" class=\"text-sm\">480p</span> <span name=\"overlay-duration\" class=\"text-sm\">10:00</span></div><div name=\"video-info\" class=\"p-4\"><h5 class=\"text-lg font-semibold truncate\"><div></div></h5><div name=\"video-information\" class=\"text-sm text-gray-600\"><span name=\"date\"></span></div></div></div></a>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

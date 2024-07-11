@@ -8,7 +8,8 @@ import (
 	"os"
 	"path/filepath"
 )
-
+// Create a program to run with make that will add thumbnail/video paths
+// to the database. possibly after migrate. tie in with tern?? for testing.
 type GetSearchHandler struct {}
 
 func NewGetSearchHandler() *GetSearchHandler  {
@@ -16,7 +17,7 @@ func NewGetSearchHandler() *GetSearchHandler  {
 }
 
 func (h *GetSearchHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-    imagePaths, err := getTestPhotos()
+    imagePaths, err := getPhotos()
     if err != nil {
         log.Printf("Error getting image paths: %v", err)
         return
@@ -34,24 +35,26 @@ func (h *GetSearchHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
     utils.RenderTemplWithLayout(templates.Search(imagePaths), r.Context(), w)
 }
 
-func getTestPhotos() ([]string, error) {
+func getPhotos() ([]string, error) {
 	var photos []string
 
-	// Read all files in the directory
-	files, err := os.ReadDir("./static/images")
+	err := filepath.Walk("./static/videos", func(path string, info os.FileInfo, err error) error {
+		if err != nil {
+			return err
+		}
+		if !info.IsDir() {
+			extension := filepath.Ext(info.Name())
+			if extension == ".jpg" || extension == ".jpeg" || extension == ".png" || extension == ".gif" {
+				photos = append(photos, path)
+			}
+		}
+		return nil
+	})
+
 	if err != nil {
 		return nil, err
 	}
 
-	// Iterate over each file and add its path to the photos slice if it's an image
-	for _, file := range files {
-		if !file.IsDir() {
-			extension := filepath.Ext(file.Name())
-			if extension == ".jpg" || extension == ".jpeg" || extension == ".png" || extension == ".gif" {
-				photos = append(photos, filepath.Join("./static/images", file.Name()))
-			}
-		}
-	}
-
 	return photos, nil
 }
+

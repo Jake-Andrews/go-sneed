@@ -1,4 +1,4 @@
-.PHONY: local docker run down-local
+.PHONY: local docker run down-local gen-db-data
 
 local:
 	echo "Running postgres"
@@ -11,5 +11,8 @@ down-local:
 	#docker rm $(FILES)
 
 run:
-	go run cmd/main.go
+	go run cmd/cmd/main.go
+
+gen-db-data:
+	go run cmd/gendbdata/main.go
 
