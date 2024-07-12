@@ -31,12 +31,11 @@ func main() {
     videoStore := dbstore.NewVideoStore(db)
 
     r := chi.NewRouter()
-
     fileServer := http.FileServer(http.Dir("./static"))
     r.Handle("/static/*", http.StripPrefix("/static/", fileServer))
 	r.Get("/", handlers.NewGetHomeHandler().ServeHTTP)
     r.Get("/video", handlers.NewGetVideoHandler(videoStore).ServeHTTP)
-    r.Get("/search", handlers.NewGetSearchHandler().ServeHTTP)
+    r.Get("/search", handlers.NewGetSearchHandler(videoStore).ServeHTTP)
     r.Get("/test", handlers.NewGetTestHandler().ServeHTTP)
     r.Get("/register", handlers.NewGetRegisterHandler().ServeHTTP)
     r.Post("/register", handlers.NewPostRegisterHandler(userStore).ServeHTTP)

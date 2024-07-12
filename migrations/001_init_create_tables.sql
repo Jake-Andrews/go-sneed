@@ -21,7 +21,7 @@ CREATE TABLE videos (
     views          INTEGER DEFAULT 0,
     likes          INTEGER DEFAULT 0,
     dislikes       INTEGER DEFAULT 0,
-    created_at     TIMESTAMP(0) WITH TIME ZONE    NOT NULL DEFAULT NOW(),
+    created_at     TIMESTAMP(0) WITH TIME ZONE    NOT NULL DEFAULT NOW()
 );
 
 ---- create above / drop below ----

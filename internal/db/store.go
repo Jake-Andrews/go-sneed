@@ -16,15 +16,10 @@ type User struct {
     Created_at time.Time `db:"created_at"`
     Last_login time.Time `db:"last_login"`
 }
-type UserStore interface {
-	CreateUser(ctx context.Context, user *models.FormData) error
-	GetUser(ctx context.Context, email string) (User, error)
-    UserExists(ctx context.Context, email string, username string) bool
-}
 
 type Video struct {
     ID             uuid.UUID              `db:"video_id"`
-    UserID         string                 `db:"user_id" validate:"required"`
+    UserID         uuid.UUID              `db:"user_id" validate:"required"`
     Title          string                 `db:"title" validate:"required"`
     Description    string                 `db:"description"`
     Duration       time.Duration          `db:"duration"`
@@ -36,7 +31,15 @@ type Video struct {
     Dislikes       int                    `db:"dislikes"`
     CreatedAt      time.Time              `db:"created_at"`
 }
+
+type UserStore interface {
+	CreateUser(ctx context.Context, user *models.FormData) error
+	GetUser(ctx context.Context, email string) (User, error)
+    UserExists(ctx context.Context, email string, username string) bool
+}
+
 type VideoStore interface {
-    CreateVideo(ctx context.Context, video *models.VideoData) error
+    CreateVideo(ctx context.Context, video *Video) error
     GetVideo(ctx context.Context, videoID uuid.UUID) (Video, error)
+    GetRandomVideos(ctx context.Context, numVideos int) ([]Video, error)
 }

@@ -28,3 +28,4 @@ networks:
   default:
     name: my-network
     external: true
+
