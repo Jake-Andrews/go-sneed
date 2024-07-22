@@ -1,5 +1,3 @@
-#go-sneed
-
 ## Dependencies:
 Standalone tailwindcss
 example uses linux, replace with your platforms (https://github.com/tailwindlabs/tailwindcss/releases/tag/v3.4.6)
